@@ -1,0 +1,32 @@
+CREATE TABLE Teacher(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(255),
+    last_name VARCHAR(255),
+    gender VARCHAR(10),
+    subject VARCHAR(50)
+);
+
+
+CREATE TABLE Pupil(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(255),
+    last_name VARCHAR(255),
+    gender VARCHAR(10),
+    class INT
+);
+
+CREATE TABLE teacher_pupil_relation(
+    teacher_id INT,
+    pupil_id INT,
+    PRIMARY KEY (teacher_id,pupil_id),
+    FOREIGN KEY (teacher_id) REFERENCES teacher(id),
+    FOREIGN KEY (pupil_id) REFERENCES pupil(id)
+);
+
+SELECT teacher.*
+FROM teacher
+JOIN teacher_pupil_relation ON teacher.id = teacher_pupil_relation.teacher_id
+WHERE teacher_pupil_relation.pupil_id IN (
+    SELECT id FROM pupil
+    WHERE first_name = 'giorgi'
+);
